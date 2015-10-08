@@ -1,5 +1,6 @@
 LOCAL_PATH:= $(call my-dir)
-
+#test change#1  and update for change#1
+#change #2
 #
 # Gaia glue
 #
