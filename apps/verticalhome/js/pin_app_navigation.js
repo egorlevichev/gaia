@@ -14,6 +14,7 @@
 	 * @param {Object} list [DOM container that contains pin elements]
 	 */
 	function PinAppNavigation(list){
+
 		if (!list &&  typeof list !== 'object'){
 			console.log('List of pin apps must be an object');
 			return;
@@ -22,16 +23,22 @@
 		this.elemList = list;
 		window.removeEventListener('keydown', this);
 		window.addEventListener('keydown', this);
+
 	};
 
 
 	PinAppNavigation.prototype = {
 
 		selector: '',
+
 		elements: null,
+
 		preventDef: false,
+
 		selectedElemIndex: 0,
+
 		elemList: null,
+
 		prevVerticalKey: null,
 
 
@@ -40,6 +47,7 @@
 		 * @return {[nothing]} [nothing]
 		 */
 		reset: function reset(){
+
 			this.elements.sort(function(elem1, elem2){
 				if (!elem1.dataset.index || !elem2.dataset.index){
 					return 1;
@@ -76,7 +84,9 @@
 
 			window.removeEventListener('keydown', this);
 			window.addEventListener('keydown', this);
+
 		},
+
 
 
 		/**
@@ -84,6 +94,7 @@
 		 * @return {[nothins]} [nothing]
 		 */
 		refresh: function refresh(){
+
 			if (!this.selector){
 				console.log('Can not work without selector');
 				return;

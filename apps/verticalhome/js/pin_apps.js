@@ -11,8 +11,11 @@
     var pinElem = document.createElement('div');
     pinElem.className = 'pin-app-item';
     pinElem.setAttribute('data-index', this.index);
+    //console.log(this);
+    //pinElem.setAttribute('id', 'pin-app-' + this.name);
     pinElem.innerHTML = "<img class='pin-app-icon'><br></img>" +
-            "<span class='title'></span>";
+            "<span class='title'></span>" +
+            "<div class='unread_notif'></div>";
     var pinList = document.getElementById('pin-apps-list');
     var moreAppsLi = document.getElementById('moreApps');
     pinList.insertBefore(pinElem, moreAppsLi);
@@ -117,4 +120,70 @@
   };
 
   exports.PinAppManager = PinAppManager;
+
+  function ShowNotifBubble(appId,notifCount){
+
+      var els = document.getElementsByTagName('div');
+      var i = 0;
+
+      for (i = 0; i < els.length; i++) {
+        if (els[i].hasAttribute('data-manifesturl')) {
+          if (els[i].getAttribute('data-manifesturl') == appId) {
+
+            var unreadNotif = els[i].getElementsByClassName('unread_notif')[0];
+
+            /* start test part */
+            var notifCountBase = parseInt(unreadNotif.innerHTML || 0);
+            notifCountBase += notifCount;
+
+            if(notifCountBase > 999){
+              notifCountBase = 0;
+            }
+            /* end test part */
+
+            /* uncomment for real life */
+            // var notifCountBase;
+            // notifCountBase = parseInt(notifCount);
+            /* /uncomment for real life */
+
+            if(notifCountBase > 0 || notifCountBase){
+              unreadNotif.style.display = "block";
+              unreadNotif.innerHTML = notifCountBase;
+            }
+            else{
+              unreadNotif.style.display = "none";
+              unreadNotif.innerHTML = 0;
+            }
+          }
+
+        }
+      }
+  };
+
+window.addEventListener("keydown", function(e){
+
+  switch(e.keyCode){
+    case 49:
+      ShowNotifBubble('app://communications.gaiamobile.org/manifest.webapp',1);
+    break;
+
+    case 50:
+      ShowNotifBubble('app://sms.gaiamobile.org/manifest.webapp',1);
+    break;
+
+     case 51:
+      ShowNotifBubble('app://camera.gaiamobile.org/manifest.webapp',1);
+    break;
+
+     case 52:
+      ShowNotifBubble('app://settings.gaiamobile.org/manifest.webapp',1);
+    break;
+
+    default:
+      return;
+    break;
+  }
+
+});
+
 })(window);

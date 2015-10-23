@@ -142,6 +142,8 @@
         this.pinNavigation.points_selector = '#pin-apps-list .pin-app-item';
       }.bind(this));
 
+
+
     },
 
     renderGrid: function() {
@@ -378,6 +380,9 @@
           this.pinNavigation.reset();
 
           // The group editor UI will be hidden by itself so returning...
+
+          this.pinNavigation.reset();
+
           var editor = exports.groupEditor;
           if (editor && !editor.hidden) {
             return;
