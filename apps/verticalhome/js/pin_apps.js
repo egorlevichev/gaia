@@ -102,9 +102,13 @@
 
   PinAppManager.prototype = {
     items: [],
+    // proto impl of Notifications counters per app basis
+    STORE_NAME: 'notifications_count',
+    _storeRef: null,
 
     init: function () {
       this.onLoadSettings();
+      this.getStore();
     },
 
     onLoadSettings: function() {
@@ -116,7 +120,45 @@
     },
 
     handleEvent: function(e) {
-    }
+    },
+
+    debug: function ns_debug(msg) {
+      console.log('[el] ' + msg);
+    },
+
+    getStore: function ns_getStore() {
+      var self = this;
+      return new Promise(resolve => {
+        if (self._storeRef) {
+          return resolve(self._storeRef);
+        }
+        navigator.getDataStores(self.STORE_NAME).then(stores => {
+          // TODO: add here cursor-related processing from
+          // https://github.com/mdn/data-store-contacts-viewer-changeevent/blob/master/scripts/app.js
+          self.debug('stores.length == ' +stores.lenght );
+          self._storeRef = stores[0];
+          stores[0].onchange = function ds_onChange(e) {
+            switch (e.operation) {
+            case 'added':
+              self.debug('added notification for new target');
+              self._storeRef.get(e.id).then(function(obj){
+                self.debug('loaded value == ' + obj + 'for ID = ' + e.id);
+              });
+            case 'updated':
+              self.debug('UPDATED notification for existing target');
+              self._storeRef.get(e.id).then(function(obj){
+                self.debug('updated value == ' + obj + 'for ID = ' + e.id);
+              });
+            }
+          }
+
+          return resolve(this._storeRef);
+        }, function (err) {
+          self.debug('ERROR '+ JSON.stringify(err));
+        });
+      });
+    },
+
   };
 
   exports.PinAppManager = PinAppManager;

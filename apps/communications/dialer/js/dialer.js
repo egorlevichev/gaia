@@ -192,7 +192,7 @@ var CallHandler = (function callHandler() {
     if (!evt.clicked) {
       return;
     }
-
+    console.log('[el] DIALER processing click on notification');
     navigator.mozApps.getSelf().onsuccess = function gotSelf(selfEvt) {
       var app = selfEvt.target.result;
       app.launch('dialer');
@@ -204,6 +204,7 @@ var CallHandler = (function callHandler() {
         var params = deserializeParameters(evt.imageURL);
 
         Notification.get({ tag: evt.tag }).then(function(notifications) {
+          console.log('[el] DIALER total cleanup of notifications');
           for (var i = 0; i < notifications.length; i++) {
             notifications[i].close();
           }
@@ -256,6 +257,7 @@ var CallHandler = (function callHandler() {
 
           var iconURL = NotificationHelper.getIconURI(app, 'dialer');
           var clickCB = function() {
+            console.log('[el] DIALER clickCB() processing');
             app.launch('dialer');
             window.location.hash = '#call-log-view';
           };

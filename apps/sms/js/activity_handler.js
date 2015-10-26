@@ -42,6 +42,7 @@ var ActivityHandler = {
     // We don't want to register these system handlers when app is run as
     // inline activity
     if (!Navigation.getPanelName().startsWith('activity')) {
+      console.log('[el] SMS handle start');
       window.navigator.mozSetMessageHandler('sms-received',
         this.onSmsReceived.bind(this));
 
@@ -357,6 +358,7 @@ var ActivityHandler = {
   /* === Incoming SMS support === */
 
   onSmsReceived: function ah_onSmsReceived(message) {
+    console.log('[el] SMS onSmsReceived('+message.sender+')');
     var _ = navigator.mozL10n.get;
 
     // Acquire the cpu wake lock when we receive an SMS.  This raises the

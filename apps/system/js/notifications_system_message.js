@@ -47,7 +47,7 @@
   BaseModule.create(NotificationsSystemMessage, {
     name: 'NotificationsSystemMessage',
     EVENT_PREFIX: 'systemMessageNotification',
-    DEBUG: false,
+    DEBUG: true,
     TRACE: false,
 
     _handlers: {},

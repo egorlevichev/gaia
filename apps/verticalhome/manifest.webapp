@@ -15,6 +15,11 @@
     "storage": {},
     "webapps-manage": {},
     "systemXHR": {},
+    "desktop-notification": {},
+    "alarms": {},
+    "audio-channel-notification":{},
+    "sms":{},
+    "phonenumberservice": {},
     "settings":{ "access": "readwrite" }
   },
   "default_locale": "en-US",
@@ -45,7 +50,13 @@
   },
   "orientation": "default",
   "activities": {},
-  "messages": [],
+  "messages": [
+    { "alarm": "/index.html" },
+    { "networkstats-alarm": "/index.html" },
+    { "telephony-call-ended": "/index.html" },
+    { "sms-received": "/index.html#root" },
+    { "notification": "/index.html" }
+  ],
   "datastores-access": {
     "bookmarks_store": {
       "readonly": false,
@@ -54,6 +65,10 @@
     "collections_store": {
       "readonly": false,
       "description": "Display collections"
+    },
+    "notifications_count": {
+      "readonly": true,
+      "description": "Display notifications counts."
     }
   },
   "datastores-owned": {

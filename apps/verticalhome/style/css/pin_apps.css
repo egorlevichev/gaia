@@ -51,6 +51,30 @@
   transition: all 0.5s;
 }
 
+#pin-apps-list .pin-app-item .unread_notif {
+  position: absolute;
+  top: 0rem;
+  left: 0rem;
+  background-color: #e63d2f;
+  min-width: 0.7rem;
+  height: 1.3rem;
+  padding: 0 0.3rem;
+  border-radius: 0.65rem;
+  text-align: center;
+  font-size: 1.1rem;
+  color: #FFF;
+  display: none;
+  font-weight: bold;
+}
+
+#pin-apps-list .selected .unread_notif {
+  min-width: 2rem;
+  padding: 0 0.5rem;
+  height: 3rem;
+  border-radius: 1.5rem;
+  font-size: 2.4rem;
+}
+
 #pin-apps-list .pin-app-icon,
 #pin-apps-list input[type="button"] {
   width: 5rem;

@@ -142,7 +142,36 @@
         this.pinNavigation.points_selector = '#pin-apps-list .pin-app-item';
       }.bind(this));
 
+      //[el] sysMsgs&notifications tryout
+      console.log("[el] setting SMS handler - have handler API == " + (!window.navigator.mozSetMessageHandler == true));
+//      window.navigator.mozSetMessageHandler('sms-received',
+//        this.onSmsReceived.bind(this));
 
+      navigator.mozSetMessageHandler('sms-received',
+        function _onSms(sms) {
+          console.log("[el] tce received, sms.sender == " + sms.sender);
+        }
+      );
+
+      console.log("[el] setting Notification handler");
+
+      navigator.mozSetMessageHandler('notification',
+        function _onNotification(notification) {
+          console.log("[el] Got Notification| .clicked == ", notification.clicked);
+          if (!notification.clicked) {
+            return;
+          }
+
+          navigator.mozApps.getSelf().onsuccess = function _onAppReady(evt) {
+            var app = evt.target.result;
+            app.launch();
+
+            var type = notification.data;
+            console.log("[el] Notification type:", type);
+          };
+        }
+      );
+      console.log("[el] init complete");
 
     },
 
