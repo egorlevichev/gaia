@@ -55,6 +55,10 @@
     "collections_store": {
       "readonly": false,
       "description": "Display collections"
+    },
+    "notifications_count": {
+      "readonly": true,
+      "description": "Display notifications counts."
     }
   },
   "datastores-owned": {
