@@ -108,7 +108,27 @@
 
     init: function () {
       this.onLoadSettings();
-      this.getStore();
+      var self = this;
+      this.initStore().then(store => {
+        store.onchange = function ds_onChange(e) {
+          // not sure, if we really need to distinguish events by operation.
+          switch (e.operation) {
+          case 'added':
+            self.debug('added notification for new target');
+          case 'updated':
+            self.debug('UPDATED notification for existing target');
+          }
+
+          self._storeRef.get(e.id).then(function(obj){
+            self.debug('loaded value == ' + obj + ' for ID = ' + e.id);
+            ShowNotifBubble(e.id, obj);
+          }, function(err) {
+            console.warn('[el][PinAppManager] error loading notifications count. err = ' + JSON.stringify(err));
+          });
+        }
+      }, err => {
+        console.warn('[el][PinAppManager] Problem opening \'notifications_count\' storage| err = ' + JSON.stringify(err));
+      });
     },
 
     onLoadSettings: function() {
@@ -126,35 +146,19 @@
       console.log('[el] ' + msg);
     },
 
-    getStore: function ns_getStore() {
+    initStore: function ns_initStore() {
       var self = this;
       return new Promise(resolve => {
         if (self._storeRef) {
           return resolve(self._storeRef);
         }
         navigator.getDataStores(self.STORE_NAME).then(stores => {
-          // TODO: add here cursor-related processing from
-          // https://github.com/mdn/data-store-contacts-viewer-changeevent/blob/master/scripts/app.js
-          self.debug('stores.length == ' +stores.lenght );
           self._storeRef = stores[0];
-          stores[0].onchange = function ds_onChange(e) {
-            switch (e.operation) {
-            case 'added':
-              self.debug('added notification for new target');
-              self._storeRef.get(e.id).then(function(obj){
-                self.debug('loaded value == ' + obj + 'for ID = ' + e.id);
-              });
-            case 'updated':
-              self.debug('UPDATED notification for existing target');
-              self._storeRef.get(e.id).then(function(obj){
-                self.debug('updated value == ' + obj + 'for ID = ' + e.id);
-              });
-            }
-          }
-
+          //TODO: need to iterate through obtained store, to read initial values for notifications.
           return resolve(this._storeRef);
         }, function (err) {
           self.debug('ERROR '+ JSON.stringify(err));
+          return reject(err);
         });
       });
     },
@@ -175,17 +179,17 @@
             var unreadNotif = els[i].getElementsByClassName('unread_notif')[0];
 
             /* start test part */
-            var notifCountBase = parseInt(unreadNotif.innerHTML || 0);
-            notifCountBase += notifCount;
+//            var notifCountBase = parseInt(unreadNotif.innerHTML || 0);
+//            notifCountBase += notifCount;
 
-            if(notifCountBase > 999){
-              notifCountBase = 0;
-            }
+//            if(notifCountBase > 999){
+//              notifCountBase = 0;
+//            }
             /* end test part */
 
             /* uncomment for real life */
-            // var notifCountBase;
-            // notifCountBase = parseInt(notifCount);
+             var notifCountBase;
+             notifCountBase = parseInt(notifCount);
             /* /uncomment for real life */
 
             if(notifCountBase > 0 || notifCountBase){

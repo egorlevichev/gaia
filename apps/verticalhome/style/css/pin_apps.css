@@ -52,8 +52,9 @@
 }
 
 #pin-apps-list .pin-app-item .unread_notif {
-  position: absolute;
-  top: 0rem;
+  position: relative;
+  /* remove magic and put proper positioning */
+  top: -7rem;
   left: 0rem;
   background-color: #e63d2f;
   min-width: 0.7rem;
@@ -73,6 +74,8 @@
   height: 3rem;
   border-radius: 1.5rem;
   font-size: 2.4rem;
+  /* remove magic and put proper positioning */
+  top: -16rem;
 }
 
 #pin-apps-list .pin-app-icon,
